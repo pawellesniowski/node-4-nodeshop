@@ -24,12 +24,19 @@ app.set('view engine', 'ejs');
 // use public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// get request:
-app.get('/', function(req, res){
-    res.render('index', {
-        title: "Homepage"
-    });
-})
+// seting routs: 
+const admin_panel = require('./routes/admin_panel.js');
+const shop_pages = require('./routes/shop_pages.js');
+
+app.use('/admin', admin_panel);
+app.use('/', shop_pages);
+
+
+// app.get('/', function(req, res){
+//     res.render('index', {
+//         title: "Homepage"
+//     });
+// });
 
 // Start the server:
 const port = 3000;
