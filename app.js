@@ -6,6 +6,7 @@ const { dbpath } = config;
 
 console.log(dbpath);
 
+
 // mongoose connection to DB:
 mongoose.connect("mongodb://localhost/nodeshop");
 const db = mongoose.connection;
