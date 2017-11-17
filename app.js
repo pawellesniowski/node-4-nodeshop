@@ -26,7 +26,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 // get request:
 app.get('/', function(req, res){
-    res.send("Hello world");
+    res.render('index', {
+        title: "Homepage"
+    });
 })
 
 // Start the server:
