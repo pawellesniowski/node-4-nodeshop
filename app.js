@@ -3,12 +3,15 @@ const path = require("path");
 const mongoose = require('mongoose');
 const config = require('./config/database.js');
 const { dbpath } = config;
-
-console.log(dbpath);
+const bodyParser = require('body-parser');
+const session = require('express-session');
+const validator = require("express-validator");
+const expressMessages = require('express-messages');
+const flash = require("connect-flash");
 
 
 // mongoose connection to DB:
-mongoose.connect("mongodb://localhost/nodeshop");
+mongoose.connect(dbpath);
 const db = mongoose.connection;
 db.on("error", console.error.bind(console, "connection error:"));
 db.once("open", function() {
@@ -25,19 +28,33 @@ app.set('view engine', 'ejs');
 // use public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
-// seting routs: 
-const admin_panel = require('./routes/admin_panel.js');
+// Body Parser middleware
+// parse application/x-www-form-urlencoded
+app.use(bodyParser.urlencoded({ extended: false }));
+app.use(bodyParser.json());
+// Validator
+app.use(validator());
+
+// express-messages middleware:
+app.use(require("connect-flash")());
+app.use(function(req, res, next) {
+  res.locals.messages = require("express-messages")(req, res);
+  next();
+});
+
+// Express session middleware: 
+app.use(session({
+    secret: 'keyboard cat',
+    resave: false,
+    saveUninitialized: true,
+    cookie: { secure: true }
+}))
+
+// seting routes: 
+const admin_pages = require('./routes/admin_pages.js');
 const shop_pages = require('./routes/shop_pages.js');
-
-app.use('/admin', admin_panel);
-app.use('/', shop_pages);
-
-
-// app.get('/', function(req, res){
-//     res.render('index', {
-//         title: "Homepage"
-//     });
-// });
+app.use('/admin', admin_pages);     // changed form app.get to app.use !
+app.use('/', shop_pages);           // changed form app.get to app.use !
 
 // Start the server:
 const port = 3000;
