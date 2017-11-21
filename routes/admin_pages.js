@@ -1,19 +1,19 @@
 const express = require("express");
 const router = express.Router();
-
-const { check, validationResult } = require("express-validator/check");
-const { matchedData, sanitize } = require("express-validator/filter");
-
+const Page = require('../models/page.js'); // get Page model (for database)
 
 // GET pages index: //
-router.get('/pages', function(req, res){
-    res.render('admin', {
-        title: "admin panel area"
+router.get('/', function(req, res){
+    Page.find({}).sort({sorting:1}).exec(function(err, pages){
+        res.render('admin/pages', {
+            pages
+        });
     });
 });
 
 // GET add page: //
-router.get('/pages/add-page', function(req, res){
+router.get('/add-page', function(req, res){
+    let errors = [];
     let title = "";
     let slug = "";
     let content = "";
@@ -21,6 +21,7 @@ router.get('/pages/add-page', function(req, res){
     // res.send('add page page admin');
 
     res.render('admin/add_page', {
+        errors,
         title,
         slug,
         content
@@ -28,27 +29,59 @@ router.get('/pages/add-page', function(req, res){
 });
  
 // POST add page: //
-router.post('/pages/add-page', function(req, res){
+router.post('/add-page', function(req, res){
 
-          [// General error messages can be given as a 2nd argument in the check APIs
-            check("title", "passwords must be at least 1 chars long and contain one number").isLength(
-              { min: 1 }
-            )], (req, res, next) => {
-              // Get the validation result whenever you want; see the Validation Result API for all options!
-              const errors = validationResult(req);
-              if (!errors.isEmpty()) {
-                return res
-                  .status(422)
-                  .json({ errors: errors.mapped() });
-              }
-            };
+        // validation
+        req.checkBody("title", "title is required").notEmpty();
+        req.checkBody("content", "content is required").notEmpty();
 
         let title = req.body.title;
-        let slug = req.body.slug.replace(/\s+/g, "-").toLowerCase();
-        if(slug == "") slug = title.replace(/\s+/g, "-").toLowerCase();
+        let slug = req.body.slug
+            .replace(/\s+/g, "-")
+            .toLowerCase();
+        if (slug == "") slug = title
+            .replace(/\s+/g, "-")
+            .toLowerCase();
         let content = req.body.content;
+        
+        let errors = req.validationErrors();
 
-});
+        if (errors) {
+            console.log("some errors", errors);
+            res.render('admin/add_page', {
+                errors,
+                title,
+                slug,
+                content
+            });
+        } else {
+            Page.findOne({slug: slug}, function(err, page){
+                if(err) throw err;
+                if(page){
+                    req.flash('danger', 'Page slug taken, choose anotherone');
+                    res.render('admin/add_page', {
+                        title,
+                        slug,
+                        content
+                    });
+                } else {
+                    const newPage = new Page({
+                        title,
+                        slug,
+                        content,
+                        sorting: 100
+                    });
+
+                    newPage.save(function(err){
+                        if(err) return console.log("page save error: ",err);
+                        req.flash('success', 'PAge Added');
+                        res.redirect('/admin/pages');
+                    });
+                }
+            })
+
+        } // end of else
+}); // end of POST ..add_page
 
 
 

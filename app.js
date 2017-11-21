@@ -28,6 +28,9 @@ app.set('view engine', 'ejs');
 // use public folder
 app.use(express.static(path.join(__dirname, 'public')));
 
+//global variable seen through the application:
+app.locals.errors = null;
+
 // Body Parser middleware
 // parse application/x-www-form-urlencoded
 app.use(bodyParser.urlencoded({ extended: false }));
@@ -53,7 +56,7 @@ app.use(session({
 // seting routes: 
 const admin_pages = require('./routes/admin_pages.js');
 const shop_pages = require('./routes/shop_pages.js');
-app.use('/admin', admin_pages);     // changed form app.get to app.use !
+app.use('/admin/pages', admin_pages);     // changed form app.get to app.use !
 app.use('/', shop_pages);           // changed form app.get to app.use !
 
 // Start the server:
