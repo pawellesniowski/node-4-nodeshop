@@ -49,8 +49,8 @@ app.use(function(req, res, next) {
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: true,
-    cookie: { secure: true }
+    saveUninitialized: false,
+    // cookie: { secure: true }
 }))
 
 // seting routes: 
@@ -63,4 +63,4 @@ app.use('/', shop_pages);           // changed form app.get to app.use !
 const port = 3000;
 app.listen(port, function (){
     console.log("Server started and listening on port: ", port);
-})
+});

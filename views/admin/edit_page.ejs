@@ -1,8 +1,8 @@
-<%- include('../_layouts/adminheader')%>
-<h2 class="page-title">Add a page</h2>
+<%-include('../_layouts/adminheader')%>
+<h2 class="page-title">Edit a <%=title%></h2>
 <br><br>
 
-<form method="post" action="/admin/pages/add-page">
+<form method="post" action="/admin/pages/edit-page/<%=slug%>">
     <div class="form-group">
         <p></p>
             <label for="">Title</label>
@@ -13,9 +13,9 @@
         <p></p>
             <label for="">Content</label>
             <textarea id="ta" class="form-control" name="content" cols="30" rows="10" placeholder="Content"><%=content%></textarea>
-
     </div>
+    <input type="hidden" name="id" value="<%=id%>">
     <button class="btn btn-success">Subbmit</button>
 </form>
 
-<%- include('../_layouts/adminfooter')%>
+<%-include('../_layouts/adminfooter')%>
