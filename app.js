@@ -55,8 +55,10 @@ app.use(session({
 
 // seting routes: 
 const admin_pages = require('./routes/admin_pages.js');
+const admin_categories = require('./routes/admin_categories.js');
 const shop_pages = require('./routes/shop_pages.js');
 app.use('/admin/pages', admin_pages);     // changed form app.get to app.use !
+app.use('/admin/categories', admin_categories); // added for categories
 app.use('/', shop_pages);           // changed form app.get to app.use !
 
 // Start the server:
