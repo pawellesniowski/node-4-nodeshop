@@ -1,4 +1,21 @@
 <%-include("../_layouts/adminheader")%>
 <h2 class="page-title">Add category</h2>
 <br><br>
+
+<form class="form-group" method="post" action="/admin/categories/add-category">
+
+        <p></p>
+        <label for="">Title</label>
+        <input class="form-control" name="title" type="text" value="<%=title%>" placeholder="Title">
+        </p>
+        <p>
+        <label for="">Slug</label>
+        <input class="form-control" name="slug" type="text" placeholder="Slug" value="<%=slug%>">
+        </p>
+        <p>
+        <label for="">Sorting</label>
+        <input class="form-control" name="sorting" type="number" placeholder="Sorting number" value="<%=sorting%>">
+        </p>
+        <button class="btn btn-success">Submit</button>
+</form>
 <%-include("../_layouts/adminfooter")%>

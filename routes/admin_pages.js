@@ -5,6 +5,7 @@ const Page = require('../models/page.js'); // get Page model (for database)
 // GET pages index: //
 router.get('/', function(req, res){
     Page.find({}).sort({sorting:1}).exec(function(err, pages){
+        console.log("pages: ", pages);
         res.render('admin/pages', {
             pages
         });
