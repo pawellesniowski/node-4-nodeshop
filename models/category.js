@@ -6,8 +6,8 @@ const categorySchema = new schema({
         type: String,
         require: true
     },
-    slug: {
-        type: String
+    sorting: {
+        type: Number
     }
 });
 

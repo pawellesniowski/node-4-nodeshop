@@ -17,20 +17,59 @@ router.get('/', function(req, res){
 
 // GET for add-category //
 router.get("/add-category", function(req, res){
+        let title = "";
+        let sorting = "";
+
     res.render('admin/add_category', {
-        title: "",
-        slug: "",
-        sorting: ""
+        title,
+        sorting
     });
 });
 //POST for add-category //
 router.post('/add-category', function(req, res){
-    let title = req.body.title;
-    let slug = req.body.slug;
 
-    res.send('categorry added');
+    //validation:
+    req.checkBody('title', 'title is required').notEmpty();
+
+    let title = req.body.title;
+    let sorting = req.body.sorting === ""? 100 : req.body.sorting;
+    let errors = req.validationErrors();
+
+    if(errors){
+        console.log("some errors", errors);
+        res.render('admin/add_category', {
+            errors,
+            title,
+            sorting
+        });
+    } else {
+        Category.findOne({title}, function(err, category){
+            if(err) return console.log("findOne category error: ", err);
+            if(category){
+                req.flash('danger', 'Category title taken, choose anotherone');
+                res.render('admin/add_category', {
+                    title,
+                    sorting
+                });
+            } else {
+                const newCategory = new Category({
+                    title,
+                    sorting
+                });
+                newCategory.save(function(err){
+                    if(err) return console.log("newCategory saving error: ", err);
+                    req.flash('success', 'Category added');
+                    res.redirect('/admin/categories');
+                })
+            }
+        })
+    }
+
+
     console.log('title: ', title);
-    console.log("slug: ", slug);   
+    console.log("sorting: ", sorting);
+    
+       
     
 });
 
