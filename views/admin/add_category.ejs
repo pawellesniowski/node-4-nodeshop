@@ -3,16 +3,15 @@
 <br><br>
 
 <form class="form-group" method="post" action="/admin/categories/add-category">
-
-        <p></p>
-        <label for="">Title</label>
-        <input class="form-control" name="title" type="text" value="<%=title%>" placeholder="Title">
+        <p>
+                <label for="">Title</label>
+                <input class="form-control" name="title" type="text" value="<%=title%>" placeholder="Title">
         </p>
         
         <p>
-        <label for="">Sorting</label>
-        <input class="form-control" name="sorting" type="number" placeholder="Sorting number" value="<%=sorting%>">
+                <label for="">Sorting</label>
+                <input class="form-control" name="sorting" type="number" placeholder="Sorting number" value="<%=sorting%>">
         </p>
-        <button class="btn btn-success">Submit</button>
+                <button class="btn btn-success">Submit</button>
 </form>
 <%-include("../_layouts/adminfooter")%>

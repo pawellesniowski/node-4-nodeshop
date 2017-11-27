@@ -1,6 +1,5 @@
 const express = require('express');
 const router = express.Router();
-
 const Category = require('../models/category.js');
 
 // GET for categories //
@@ -12,9 +11,6 @@ router.get('/', function(req, res){
         });
     });
 });
-
-
-
 // GET for add-category //
 router.get("/add-category", function(req, res){
         let title = "";
@@ -61,17 +57,28 @@ router.post('/add-category', function(req, res){
                     req.flash('success', 'Category added');
                     res.redirect('/admin/categories');
                 })
-            }
-        })
-    }
+            };
+        });
+    };
+}); // end POST add-category //
 
 
-    console.log('title: ', title);
-    console.log("sorting: ", sorting);
-    
-       
-    
+//GET for edit-category //
+router.get('/edit-category/:title', function(req, res){
+
+    Category.findOne({title: req.params.title}, function(err, category){
+        const { title, sorting } = category;
+        console.log('title, sorting ', title, sorting);
+        res.render('admin/edit_category', {
+            title,
+            sorting
+        });
+    });
+
 });
 
+
+
+//POST for edit-category //
 
 module.exports = router;

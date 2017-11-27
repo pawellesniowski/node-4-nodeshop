@@ -89,6 +89,7 @@ router.get('/edit-page/:slug', function(req, res){
 
     Page.findOne({slug: req.params.slug}, function(err, page){
         if(err) return console.log('err from edit_page: ', err);
+        console.log('page', page);
         res.render('admin/edit_page', {
             title: page.title,
             slug: page.slug,
