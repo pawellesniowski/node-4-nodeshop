@@ -1,7 +1,7 @@
 <%-include('./../_layouts/adminheader')%>
 <h2 class="page-title">Edit a <%=title%></h2>
 <br><br>
-<form class="form-group" method="post" action="/admin/categories/add-category">
+<form class="form-group" method="post" action="/admin/categories/edit-category/<%=id%>">
     <p>
         <label for="">Title</label>
         <input class="form-control" name="title" type="text" value="<%=title%>" placeholder="Title">
@@ -11,6 +11,7 @@
         <label for="">Sorting</label>
         <input class="form-control" name="sorting" type="number" placeholder="Sorting number" value="<%=sorting%>">
     </p>
+        <input type="hidden" name="id" value="<%=id%>">
         <button class="btn btn-success">Submit</button>
 </form>
 <%-include('./../_layouts/adminfooter')%>

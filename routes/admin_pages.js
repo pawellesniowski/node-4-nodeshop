@@ -122,7 +122,6 @@ router.post('/edit-page/:slug', function(req, res){
         let errors = req.validationErrors();
 
         if (errors) {
-            console.log("some errors", errors);
             res.render('admin/edit_page', {
                 errors,
                 title,
@@ -133,9 +132,8 @@ router.post('/edit-page/:slug', function(req, res){
             });
         } else {
             Page.findOne({slug: slug, _id:{'$ne':id}}, function(err, page){
-                if(err) console.log("Here!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+                if(err) console.log(err);
                 if(page){
-                    if (err) console.log("Here22222222222222222222222222");
                     req.flash('danger', 'Page slug taken, choose anotherone');
                     res.render('admin/edit_page', {
                         title,
@@ -154,7 +152,7 @@ router.post('/edit-page/:slug', function(req, res){
 
                         page.save(function(err){
                             if(err) return console.log("page save error: ",err);
-                            req.flash('success', 'Page Added');
+                            req.flash('success', 'Page added');
                             res.redirect('/admin/pages');
                         });
 
