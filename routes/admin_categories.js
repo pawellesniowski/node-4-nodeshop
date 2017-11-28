@@ -39,18 +39,28 @@ router.post('/add-category', function(req, res){
         });
     } else {
         Category.findOne({title}, function(err, category){
-            if(err) return console.log("findOne category error: ", err);
-            const newCategory = new Category({
-                title,
-                sorting
-            });
-            newCategory.save(function(err){
-                if(err) return console.log("newCategory saving error: ", err);
-                req.flash('success', 'Category added');
-                res.redirect('/admin/categories');
-            });
-        }); // end of Category.findOne //
+            if(err) return console.log('err in POST add-category, Category.findOne: ', err);
+            if(category){
+                req.flash("danger", "title used by different category, choose another one");
+                res.render('admin/add_category', {
+                    title,
+                    sorting
+                });
+            } else {
+                let newCategory = new Category({
+                    title,
+                    sorting
+                });
+                newCategory.save(function(err){
+                    if(err) return console.log('err in POST add-category, newCategory.save: ', err);
+                    req.flash("success", "Category added successfully.");
+                    res.redirect("/admin/categories");                    
+                }); // end of newCategory.save
+
+            } // end of checking if category title exists.
+        }); // end ofCategory.findOne
     }; // end of if errors //
+
 }); // end of POST add-category //
 
 
