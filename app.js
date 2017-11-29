@@ -8,6 +8,8 @@ const session = require('express-session');
 const validator = require("express-validator");
 const expressMessages = require('express-messages');
 const flash = require("connect-flash");
+const fileUpload = require('express-fileupload');
+
 
 
 // mongoose connection to DB:
@@ -30,6 +32,9 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 //global variable seen through the application:
 app.locals.errors = null;
+
+// Express-fileupload middleware 
+app.use(fileUpload());
 
 // Body Parser middleware
 // parse application/x-www-form-urlencoded
@@ -57,9 +62,11 @@ app.use(session({
 const admin_pages = require('./routes/admin_pages.js');
 const admin_categories = require('./routes/admin_categories.js');
 const shop_pages = require('./routes/shop_pages.js');
+const admin_products = require('/routes/admin_products');
 app.use('/admin/pages', admin_pages);     // changed form app.get to app.use !
 app.use('/admin/categories', admin_categories); // added for categories
 app.use('/', shop_pages);           // changed form app.get to app.use !
+app.use('/admin/products', admin_products); 
 
 // Start the server:
 const port = 3000;
