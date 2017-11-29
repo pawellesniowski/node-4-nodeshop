@@ -128,5 +128,18 @@ router.post('/edit-category/:id', function(req, res){
 
 }); //end of POST for edit-category //
 
+//GET for delete-category //
+router.get('/delete-category/:id', function(req, res){
+    const {id} = req.params;
+    Category.findByIdAndRemove(id, function(err){
+        if(err) return console.log('error admin_categories, Category.findByIdAndRemove: ', err);
+        req.flash('success', 'Category deleted successfully');
+        res.redirect('/admin/categories');
+    }); // end fo Category.findByIdAndRemove //
+});//GET for delete-category //
+
+
+
+
 
 module.exports = router;
