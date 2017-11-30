@@ -54,15 +54,15 @@ app.use(function(req, res, next) {
 app.use(session({
     secret: 'keyboard cat',
     resave: false,
-    saveUninitialized: false,
+    saveUninitialized: false
     // cookie: { secure: true }
-}))
+}));
 
 // seting routes: 
 const admin_pages = require('./routes/admin_pages.js');
 const admin_categories = require('./routes/admin_categories.js');
 const shop_pages = require('./routes/shop_pages.js');
-const admin_products = require('/routes/admin_products');
+const admin_products = require('./routes/admin_products.js');
 app.use('/admin/pages', admin_pages);     // changed form app.get to app.use !
 app.use('/admin/categories', admin_categories); // added for categories
 app.use('/', shop_pages);           // changed form app.get to app.use !

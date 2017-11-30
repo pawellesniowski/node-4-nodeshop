@@ -1,0 +1,22 @@
+<%-include('./../_layouts/adminheader')%>
+<h2>Add product</h2>
+<a href="/admin/products" class="btn btn-primary" role="button">Back to products</a>
+<br><br>
+
+<form method="post" action="/admin/products/add-page">
+    <div class="form-group">
+        <label for="title">Title</label>
+        <input class="form-control" type="text" name="title" value="" placeholder="Title">
+        <label for="description">Description</label>
+        <input class="form-control" type="text" name="description" value="" placeholder="Description">
+        <label for="category">Category</label>
+        <input class="form-control" type="text" name="category" value="" placeholder="Category">
+        <label for="price">Price</label>
+        <input class="form-control" type="number" name="price" value="" placeholder="Price">
+        <label for="image">Image</label>
+
+    </div>
+    <button class="btn btn-success">Add product</button>
+</form>
+
+<%-include('./../_layouts/adminfooter')%>
