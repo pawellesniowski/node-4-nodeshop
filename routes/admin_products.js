@@ -30,9 +30,23 @@ router.get('/', function(req, res){
 
 // GET for add-product //
 router.get('/add-product', function(req, res){
-    // res.send('add product test');
-    res.render('admin/add_product');
-});
+
+    let title = "";
+    let description = "";
+    let price = "";
+    let sorting = "";
+    
+    Category.find(function(err, categories){
+        res.render('admin/add_product', {
+        title,
+        description,
+        categories,
+        price,
+        sorting
+        }); // end of res.render //
+    }); // end of Category.find //
+
+}); //end of GET add-product //
 
 
 
